@@ -1,0 +1,463 @@
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> -- Insert 5 records in the RENTAL table.
+SQL> -- ------------------------------------------------------------------
+SQL> 
+SQL> INSERT INTO rental
+  2  ( rental_id
+  3  , customer_id
+  4  , check_out_date
+  5  , return_date
+  6  , created_by
+  7  , creation_date
+  8  , last_updated_by
+  9  , last_update_date )
+ 10  VALUES
+ 11  ( rental_s1.nextval
+ 12  ,(SELECT	contact_id
+ 13    FROM	contact
+ 14    WHERE	last_name = 'Vizquel'
+ 15    AND	first_name = 'Oscar')
+ 16  , TRUNC(SYSDATE)
+ 17  , TRUNC(SYSDATE) + 5
+ 18  , 1001
+ 19  , SYSDATE
+ 20  , 1001
+ 21  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental
+  2  ( rental_id
+  3  , customer_id
+  4  , check_out_date
+  5  , return_date
+  6  , created_by
+  7  , creation_date
+  8  , last_updated_by
+  9  , last_update_date )
+ 10  VALUES
+ 11  ( rental_s1.nextval
+ 12  ,(SELECT	contact_id
+ 13    FROM	contact
+ 14    WHERE	last_name = 'Vizquel'
+ 15    AND	first_name = 'Doreen')
+ 16  , TRUNC(SYSDATE)
+ 17  , TRUNC(SYSDATE) + 5
+ 18  , 1001
+ 19  , SYSDATE
+ 20  , 1001
+ 21  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental
+  2  ( rental_id
+  3  , customer_id
+  4  , check_out_date
+  5  , return_date
+  6  , created_by
+  7  , creation_date
+  8  , last_updated_by
+  9  , last_update_date )
+ 10  VALUES
+ 11  ( rental_s1.nextval
+ 12  ,(SELECT	contact_id
+ 13    FROM	contact
+ 14    WHERE	last_name = 'Sweeney'
+ 15    AND	first_name = 'Meaghan')
+ 16  , TRUNC(SYSDATE)
+ 17  , TRUNC(SYSDATE) + 5
+ 18  , 1001
+ 19  , SYSDATE
+ 20  , 1001
+ 21  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental
+  2  ( rental_id
+  3  , customer_id
+  4  , check_out_date
+  5  , return_date
+  6  , created_by
+  7  , creation_date
+  8  , last_updated_by
+  9  , last_update_date )
+ 10  VALUES
+ 11  ( rental_s1.nextval
+ 12  ,(SELECT	contact_id
+ 13    FROM	contact
+ 14    WHERE	last_name = 'Sweeney'
+ 15    AND	first_name = 'Ian')
+ 16  , TRUNC(SYSDATE)
+ 17  , TRUNC(SYSDATE) + 5
+ 18  , 1001
+ 19  , SYSDATE
+ 20  , 1001
+ 21  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental
+  2  ( rental_id
+  3  , customer_id
+  4  , check_out_date
+  5  , return_date
+  6  , created_by
+  7  , creation_date
+  8  , last_updated_by
+  9  , last_update_date )
+ 10  VALUES
+ 11  ( rental_s1.nextval
+ 12  ,(SELECT	contact_id
+ 13    FROM	contact
+ 14    WHERE	last_name = 'Winn'
+ 15    AND	first_name = 'Brian')
+ 16  , TRUNC(SYSDATE)
+ 17  , TRUNC(SYSDATE) + 5
+ 18  , 1001
+ 19  , SYSDATE
+ 20  , 1001
+ 21  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> -- Insert 9 records in the RENTAL_ITEM table.
+SQL> -- ------------------------------------------------------------------
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Vizquel'
+ 16    AND	c.first_name = 'Oscar')
+ 17  ,(SELECT	i.item_id
+ 18    FROM	item i
+ 19    ,	common_lookup cl
+ 20    WHERE	i.item_title = 'Star Wars I'
+ 21    AND	i.item_subtitle = 'Phantom Menace'
+ 22    AND	i.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'DVD_WIDE_SCREEN')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r inner join contact c
+ 13    ON	r.customer_id = c.contact_id
+ 14    WHERE	c.last_name = 'Vizquel'
+ 15    AND	c.first_name = 'Oscar')
+ 16  ,(SELECT	d.item_id
+ 17    FROM	item d join common_lookup cl
+ 18    ON	d.item_title = 'Star Wars II'
+ 19    WHERE	d.item_subtitle = 'Attack of the Clones'
+ 20    AND	d.item_type = cl.common_lookup_id
+ 21    AND	cl.common_lookup_type = 'DVD_WIDE_SCREEN')
+ 22  , 1001
+ 23  , SYSDATE
+ 24  , 1001
+ 25  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Vizquel'
+ 16    AND	c.first_name = 'Oscar')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'Star Wars III'
+ 21    AND	d.item_subtitle = 'Revenge of the Sith'
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'DVD_WIDE_SCREEN')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Vizquel'
+ 16    AND	c.first_name = 'Doreen')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'I Remember Mama'
+ 21    AND	d.item_subtitle IS NULL
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'BLU-RAY')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Vizquel'
+ 16    AND	c.first_name = 'Doreen')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'Camelot'
+ 21    AND	d.item_subtitle IS NULL
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'BLU-RAY')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Sweeney'
+ 16    AND	c.first_name = 'Meaghan')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'Hook'
+ 21    AND	d.item_subtitle IS NULL
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'BLU-RAY')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Sweeney'
+ 16    AND	c.first_name = 'Ian')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'Cars'
+ 21    AND	d.item_subtitle IS NULL
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'XBOX')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Winn'
+ 16    AND	c.first_name = 'Brian')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'RoboCop'
+ 21    AND	d.item_subtitle IS NULL
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'XBOX')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO rental_item
+  2  ( rental_item_id
+  3  , rental_id
+  4  , item_id
+  5  , created_by
+  6  , creation_date
+  7  , last_updated_by
+  8  , last_update_date)
+  9  VALUES
+ 10  ( rental_item_s1.nextval
+ 11  ,(SELECT	r.rental_id
+ 12    FROM	rental r
+ 13    ,	contact c
+ 14    WHERE	r.customer_id = c.contact_id
+ 15    AND	c.last_name = 'Winn'
+ 16    AND	c.first_name = 'Brian')
+ 17  ,(SELECT	d.item_id
+ 18    FROM	item d
+ 19    ,	common_lookup cl
+ 20    WHERE	d.item_title = 'The Hunt for Red October'
+ 21    AND	d.item_subtitle = 'Special Collector''s Edition'
+ 22    AND	d.item_type = cl.common_lookup_id
+ 23    AND	cl.common_lookup_type = 'DVD_WIDE_SCREEN')
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --   Query to verify nine rental agreements, some with one and some
+SQL> --   with more than one rental item.
+SQL> -- ------------------------------------------------------------------
+SQL> COL member_id	 FORMAT 9999 HEADING "Member|ID #"
+SQL> COL account_number  FORMAT A10  HEADING "Account|Number"
+SQL> COL full_name	 FORMAT A20  HEADING "Name|(Last, First MI)"
+SQL> COL rental_id	 FORMAT 9999 HEADING "Rent|ID #"
+SQL> COL rental_item_id  FORMAT 9999 HEADING "Rent|Item|ID #"
+SQL> COL item_title	 FORMAT A26  HEADING "Item Title"
+SQL> SELECT   m.member_id
+  2  ,	      m.account_number
+  3  ,	      c.last_name || ', ' || c.first_name
+  4  ||       CASE
+  5  		WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  6  	      END AS full_name
+  7  ,	      r.rental_id
+  8  ,	      ri.rental_item_id
+  9  ,	      i.item_title
+ 10  FROM     member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 11  	      rental r ON c.contact_id = r.customer_id INNER JOIN
+ 12  	      rental_item ri ON r.rental_id = ri.rental_id INNER JOIN
+ 13  	      item i ON ri.item_id = i.item_id
+ 14  ORDER BY r.rental_id;
+
+                                              Rent                              
+Member Account    Name                  Rent  Item                              
+  ID # Number     (Last, First MI)      ID #  ID # Item Title                   
+------ ---------- -------------------- ----- ----- --------------------------   
+  1002 B293-71446 Vizquel, Oscar        1001  1001 Star Wars I                  
+  1002 B293-71446 Vizquel, Oscar        1001  1002 Star Wars II                 
+  1002 B293-71446 Vizquel, Oscar        1001  1003 Star Wars III                
+  1002 B293-71446 Vizquel, Doreen       1002  1005 Camelot                      
+  1002 B293-71446 Vizquel, Doreen       1002  1004 I Remember Mama              
+  1003 B293-71447 Sweeney, Meaghan      1003  1006 Hook                         
+  1003 B293-71447 Sweeney, Ian M        1004  1007 Cars                         
+  1001 B293-71445 Winn, Brian           1005  1009 The Hunt for Red October     
+  1001 B293-71445 Winn, Brian           1005  1008 RoboCop                      
+
+9 rows selected.
+
+SQL> 
+SQL> -- Commit changes.
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Close log file.
+SQL> -- ------------------------------------------------------------------
+SQL> SPOOL OFF

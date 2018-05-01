@@ -1,0 +1,171 @@
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --   Query to verify seven rows of chained inserts to the five
+SQL> --   dependent tables.
+SQL> -- ------------------------------------------------------------------
+SQL> --    1. MEMBER
+SQL> --    2. CONTACT
+SQL> --    3. ADDRESS
+SQL> --    4. STREET_ADDRESS
+SQL> --    5. TELEPHONE
+SQL> -- ------------------------------------------------------------------
+SQL> 
+SQL> COL member_id	 FORMAT 9999 HEADING "Acct|ID #"
+SQL> COL account_number  FORMAT A10  HEADING "Account|Number"
+SQL> COL full_name	 FORMAT A16  HEADING "Name|(Last, First MI)"
+SQL> COL city		 FORMAT A12  HEADING "City"
+SQL> COL state_province  FORMAT A10  HEADING "State"
+SQL> COL telephone	 FORMAT A18  HEADING "Telephone"
+SQL> SELECT   m.member_id
+  2  ,	      m.account_number
+  3  ,	      c.last_name || ', ' || c.first_name
+  4  ||       CASE
+  5  		WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  6  	      END AS full_name
+  7  ,	      a.city
+  8  ,	      a.state_province
+  9  ,	      t.country_code || '-(' || t.area_code || ') ' || t.telephone_number AS telephone
+ 10  FROM     member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 11  	      address a ON c.contact_id = a.contact_id INNER JOIN
+ 12  	      street_address sa ON a.address_id = sa.address_id INNER JOIN
+ 13  	      telephone t ON c.contact_id = t.contact_id AND a.address_id = t.address_id
+ 14  WHERE    last_name IN ('Sweeney','Vizquel','Winn');
+
+ Acct Account    Name                                                           
+ ID # Number     (Last, First MI) City         State      Telephone             
+----- ---------- ---------------- ------------ ---------- ------------------    
+ 1001 B293-71445 Winn, Randi      San Jose     CA         001-(408) 111-1111    
+ 1001 B293-71445 Winn, Brian      San Jose     CA         001-(408) 111-1111    
+ 1002 B293-71446 Vizquel, Oscar   San Jose     CA         USA-(408) 222-2222    
+ 1002 B293-71446 Vizquel, Doreen  San Jose     CA         USA-(408) 222-2222    
+ 1003 B293-71447 Sweeney, Meaghan San Jose     CA         USA-(408) 333-3333    
+ 1003 B293-71447 Sweeney, Matthew San Jose     CA         USA-(408) 333-3333    
+ 1003 B293-71447 Sweeney, Ian M   San Jose     CA         USA-(408) 333-3333    
+
+7 rows selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Display the 21 inserts into the item table.
+SQL> -- ------------------------------------------------------------------
+SQL> SET PAGESIZE 99
+SQL> COL item_id		FORMAT 9999  HEADING "Item|ID #"
+SQL> COL common_lookup_meaning	FORMAT A20  HEADING "Item Description"
+SQL> COL item_title		FORMAT A30  HEADING "Item Title"
+SQL> COL item_release_date	FORMAT A11  HEADING "Item|Release|Date"
+SQL> SELECT   i.item_id
+  2  ,	      cl.common_lookup_meaning
+  3  ,	      i.item_title
+  4  ,	      i.item_release_date
+  5  FROM     item i INNER JOIN common_lookup cl ON i.item_type = cl.common_lookup_id;
+
+                                                          Item                  
+ Item                                                     Release               
+ ID # Item Description     Item Title                     Date                  
+----- -------------------- ------------------------------ -----------           
+ 1001 DVD: Wide Screen     The Hunt for Red October       02-MAR-90             
+ 1002 DVD: Wide Screen     Star Wars I                    04-MAY-99             
+ 1003 DVD: Full Screen     Star Wars II                   16-MAY-02             
+ 1004 DVD: Wide Screen     Star Wars II                   16-MAY-02             
+ 1005 DVD: Wide Screen     Star Wars III                  19-MAY-05             
+ 1006 DVD: Wide Screen     The Chronicles of Narnia       16-MAY-02             
+ 1007 XBOX                 RoboCop                        24-JUL-03             
+ 1008 XBOX                 Pirates of the Caribbean       30-JUN-03             
+ 1009 XBOX                 The Chronicles of Narnia       30-JUN-03             
+ 1010 Nintendo Gamecube    MarioKart                      17-NOV-03             
+ 1011 Playstation2         Splinter Cell                  08-APR-03             
+ 1012 Playstation2         Need for Speed                 15-NOV-04             
+ 1013 XBOX                 The DaVinci Code               19-MAY-06             
+ 1014 XBOX                 Cars                           28-APR-06             
+ 1015 Blu-ray              Beau Geste                     01-MAR-92             
+ 1016 Blu-ray              I Remember Mama                05-JAN-98             
+ 1017 Blu-ray              Tora! Tora! Tora!              02-NOV-99             
+ 1018 Blu-ray              A Man for All Seasons          28-JUN-94             
+ 1019 Blu-ray              Hook                           11-DEC-91             
+ 1020 Blu-ray              Around the World in 80 Days    04-DEC-92             
+ 1021 Blu-ray              Camelot                        15-MAY-98             
+
+21 rows selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --   Query to verify five individual rows of chained inserts through
+SQL> --   a procedure into the five dependent tables.
+SQL> -- ------------------------------------------------------------------
+SQL> COL account_number  FORMAT A10  HEADING "Account|Number"
+SQL> COL full_name	 FORMAT A20  HEADING "Name|(Last, First MI)"
+SQL> COL city		 FORMAT A12  HEADING "City"
+SQL> COL state_province  FORMAT A10  HEADING "State"
+SQL> COL telephone	 FORMAT A18  HEADING "Telephone"
+SQL> SELECT   m.account_number
+  2  ,	      c.last_name || ', ' || c.first_name
+  3  ||       CASE
+  4  		WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  5  	      END AS full_name
+  6  ,	      a.city
+  7  ,	      a.state_province
+  8  ,	      t.country_code || '-(' || t.area_code || ') ' || t.telephone_number AS telephone
+  9  FROM     member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 10  	      address a ON c.contact_id = a.contact_id INNER JOIN
+ 11  	      street_address sa ON a.address_id = sa.address_id INNER JOIN
+ 12  	      telephone t ON c.contact_id = t.contact_id AND a.address_id = t.address_id
+ 13  WHERE    m.member_type = (SELECT common_lookup_id
+ 14  			       FROM   common_lookup
+ 15  			       WHERE  common_lookup_context = 'MEMBER'
+ 16  			       AND    common_lookup_type = 'INDIVIDUAL');
+
+Account    Name                                                                 
+Number     (Last, First MI)     City         State      Telephone               
+---------- -------------------- ------------ ---------- ------------------      
+R11-514-34 Clinton, Goeffrey W  Provo        Utah       001-(801) 423-1234      
+R11-514-35 Moss, Wendy          Provo        Utah       001-(801) 423-1235      
+R11-514-36 Gretelz, Simon J     Provo        Utah       001-(801) 423-1236      
+R11-514-37 Royal, Elizabeth J   Provo        Utah       001-(801) 423-1237      
+R11-514-38 Smith, Brian N       Spanish Fork Utah       001-(801) 423-1238      
+
+5 rows selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --   Query to verify nine rental agreements, some with one and some
+SQL> --   with more than one rental item.
+SQL> -- ------------------------------------------------------------------
+SQL> COL member_id	 FORMAT 9999 HEADING "Member|ID #"
+SQL> COL account_number  FORMAT A10  HEADING "Account|Number"
+SQL> COL full_name	 FORMAT A20  HEADING "Name|(Last, First MI)"
+SQL> COL rental_id	 FORMAT 9999 HEADING "Rent|ID #"
+SQL> COL rental_item_id  FORMAT 9999 HEADING "Rent|Item|ID #"
+SQL> COL item_title	 FORMAT A26  HEADING "Item Title"
+SQL> SELECT   m.member_id
+  2  ,	      m.account_number
+  3  ,	      c.last_name || ', ' || c.first_name
+  4  ||       CASE
+  5  		WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  6  	      END AS full_name
+  7  ,	      r.rental_id
+  8  ,	      ri.rental_item_id
+  9  ,	      i.item_title
+ 10  FROM     member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 11  	      rental r ON c.contact_id = r.customer_id INNER JOIN
+ 12  	      rental_item ri ON r.rental_id = ri.rental_id INNER JOIN
+ 13  	      item i ON ri.item_id = i.item_id
+ 14  ORDER BY r.rental_id;
+
+                                              Rent                              
+Member Account    Name                  Rent  Item                              
+  ID # Number     (Last, First MI)      ID #  ID # Item Title                   
+------ ---------- -------------------- ----- ----- --------------------------   
+  1002 B293-71446 Vizquel, Oscar        1001  1001 Star Wars I                  
+  1002 B293-71446 Vizquel, Oscar        1001  1002 Star Wars II                 
+  1002 B293-71446 Vizquel, Oscar        1001  1003 Star Wars III                
+  1002 B293-71446 Vizquel, Doreen       1002  1005 Camelot                      
+  1002 B293-71446 Vizquel, Doreen       1002  1004 I Remember Mama              
+  1003 B293-71447 Sweeney, Meaghan      1003  1006 Hook                         
+  1003 B293-71447 Sweeney, Ian M        1004  1007 Cars                         
+  1001 B293-71445 Winn, Brian           1005  1009 The Hunt for Red October     
+  1001 B293-71445 Winn, Brian           1005  1008 RoboCop                      
+
+9 rows selected.
+
+SQL> 
+SQL> SPOOL OFF

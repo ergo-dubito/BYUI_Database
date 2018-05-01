@@ -1,0 +1,74 @@
+SQL> 
+SQL> -- Update all MEMBER_TYPE values based on number of dependent CONTACT rows.
+SQL> UPDATE member m
+  2  SET    member_type =
+  3  	     (SELECT   common_lookup_id
+  4  	      FROM     common_lookup
+  5  	      WHERE    common_lookup_context = 'MEMBER'
+  6  	      AND      common_lookup_type =
+  7  			(SELECT  dt.member_type
+  8  			 FROM	(SELECT   c.member_id
+  9  				 ,	  CASE
+ 10  					    WHEN COUNT(c.member_id) > 1 THEN 'GROUP'
+ 11  					    ELSE 'INDIVIDUAL'
+ 12  					  END AS member_type
+ 13  				 FROM	  contact c
+ 14  				 GROUP BY c.member_id) dt
+ 15  			 WHERE	  dt.member_id = m.member_id));
+
+8 rows updated.
+
+SQL> 
+SQL> -- Modify the MEMBER table to add a NOT NULL constraint to the MEMBER_TYPE column.
+SQL> ALTER TABLE member
+  2    MODIFY (member_type  NUMBER  CONSTRAINT nn_member_1  NOT NULL);
+
+Table altered.
+
+SQL> 
+SQL> -- Use SQL*Plus report formatting commands.
+SQL> COLUMN member_id	       FORMAT 999999 HEADING "MEMBER|ID"
+SQL> COLUMN members	       FORMAT 999999 HEADING "MEMBER|QTY #"
+SQL> COLUMN member_type        FORMAT 999999 HEADING "MEMBER|TYPE|ID #"
+SQL> COLUMN common_lookup_id   FORMAT 999999 HEADING "MEMBER|LOOKUP|ID #"
+SQL> COLUMN common_lookup_type FORMAT A12    HEADING "COMMON|LOOKUP|TYPE"
+SQL> SELECT   m.member_id
+  2  ,	      COUNT(contact_id) AS MEMBERS
+  3  ,	      m.member_type
+  4  ,	      cl.common_lookup_id
+  5  ,	      cl.common_lookup_type
+  6  FROM     member m INNER JOIN contact c
+  7  ON       m.member_id = c.member_id INNER JOIN common_lookup cl
+  8  ON       m.member_type = cl.common_lookup_id
+  9  GROUP BY m.member_id
+ 10  ,	      m.member_type
+ 11  ,	      cl.common_lookup_id
+ 12  ,	      cl.common_lookup_type
+ 13  ORDER BY m.member_id;
+
+                 MEMBER  MEMBER COMMON                                          
+ MEMBER  MEMBER    TYPE  LOOKUP LOOKUP                                          
+     ID   QTY #    ID #    ID # TYPE                                            
+------- ------- ------- ------- ------------                                    
+   1001       2    1004    1004 GROUP                                           
+   1002       2    1004    1004 GROUP                                           
+   1003       3    1004    1004 GROUP                                           
+   1004       1    1003    1003 INDIVIDUAL                                      
+   1005       1    1003    1003 INDIVIDUAL                                      
+   1006       1    1003    1003 INDIVIDUAL                                      
+   1007       1    1003    1003 INDIVIDUAL                                      
+   1008       1    1003    1003 INDIVIDUAL                                      
+
+8 rows selected.
+
+SQL> 
+SQL> -- Commit changes.
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Close log file.
+SQL> -- ------------------------------------------------------------------
+SQL> SPOOL OFF

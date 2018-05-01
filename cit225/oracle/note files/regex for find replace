@@ -1,0 +1,10 @@
+system_user(?!(_group|_id|_name|_type))
+lookupThingsThingsThingsThings(?!(_id))
+address(?!(_group|_id|_name|_type))
+lookupThingsThingsThings(?!(_group|_id|_name|_type|_meaning|_context))
+
+
+
+//Not sufixed by these
+(?!(_group|_id|_name|_type|_meaning|_context|_lab|ship))
+

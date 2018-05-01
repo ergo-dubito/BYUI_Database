@@ -1,0 +1,183 @@
+SQL> 
+SQL> -- Insert first contact.
+SQL> BEGIN
+  2    /* Call the contact_insert procedure. */
+  3    contact_insert(
+  4  	   pv_member_type => 'INDIVIDUAL'
+  5  	 , pv_account_number => 'R11-514-34'
+  6  	 , pv_credit_card_number => '1111-1111-1111-1111'
+  7  	 , pv_credit_card_type => 'VISA_CARD'
+  8  	 , pv_first_name => 'Goeffrey'
+  9  	 , pv_middle_name => 'Ward'
+ 10  	 , pv_last_name => 'Clinton'
+ 11  	 , pv_contact_type => 'CUSTOMER'
+ 12  	 , pv_address_type => 'HOME'
+ 13  	 , pv_city => 'Provo'
+ 14  	 , pv_state_province => 'Utah'
+ 15  	 , pv_postal_code => '84606'
+ 16  	 , pv_street_address => '118 South 9th East'
+ 17  	 , pv_telephone_type => 'HOME'
+ 18  	 , pv_country_code => '001'
+ 19  	 , pv_area_code => '801'
+ 20  	 , pv_telephone_number => '423-1234' );
+ 21  END;
+ 22  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Insert second contact.
+SQL> BEGIN
+  2    /* Call athe contact_insert procedure. */
+  3    contact_insert(
+  4  	   pv_member_type => 'INDIVIDUAL'
+  5  	 , pv_account_number => 'R11-514-35'
+  6  	 , pv_credit_card_number => '1111-2222-1111-1111'
+  7  	 , pv_credit_card_type => 'VISA_CARD'
+  8  	 , pv_first_name => 'Wendy'
+  9  	 , pv_last_name => 'Moss'
+ 10  	 , pv_contact_type => 'CUSTOMER'
+ 11  	 , pv_address_type => 'HOME'
+ 12  	 , pv_city => 'Provo'
+ 13  	 , pv_state_province => 'Utah'
+ 14  	 , pv_postal_code => '84606'
+ 15  	 , pv_street_address => '1218 South 10th East'
+ 16  	 , pv_telephone_type => 'HOME'
+ 17  	 , pv_country_code => '001'
+ 18  	 , pv_area_code => '801'
+ 19  	 , pv_telephone_number => '423-1235' );
+ 20  END;
+ 21  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Insert third contact.
+SQL> BEGIN
+  2    /* Call the contact_insert procedure. */
+  3    contact_insert(
+  4  	   pv_member_type => 'INDIVIDUAL'
+  5  	 , pv_account_number => 'R11-514-36'
+  6  	 , pv_credit_card_number => '1111-1111-2222-1111'
+  7  	 , pv_credit_card_type => 'VISA_CARD'
+  8  	 , pv_first_name => 'Simon'
+  9  	 , pv_middle_name => 'Jonah'
+ 10  	 , pv_last_name => 'Gretelz'
+ 11  	 , pv_contact_type => 'CUSTOMER'
+ 12  	 , pv_address_type => 'HOME'
+ 13  	 , pv_city => 'Provo'
+ 14  	 , pv_state_province => 'Utah'
+ 15  	 , pv_postal_code => '84606'
+ 16  	 , pv_street_address => '2118 South 7th East'
+ 17  	 , pv_telephone_type => 'HOME'
+ 18  	 , pv_country_code => '001'
+ 19  	 , pv_area_code => '801'
+ 20  	 , pv_telephone_number => '423-1236' );
+ 21  END;
+ 22  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Insert fourth contact.
+SQL> BEGIN
+  2    /* Call the contact_insert procedure. */
+  3    contact_insert(
+  4  	   pv_member_type => 'INDIVIDUAL'
+  5  	 , pv_account_number => 'R11-514-37'
+  6  	 , pv_credit_card_number => '3333-1111-1111-2222'
+  7  	 , pv_credit_card_type => 'VISA_CARD'
+  8  	 , pv_first_name => 'Elizabeth'
+  9  	 , pv_middle_name => 'Jane'
+ 10  	 , pv_last_name => 'Royal'
+ 11  	 , pv_contact_type => 'CUSTOMER'
+ 12  	 , pv_address_type => 'HOME'
+ 13  	 , pv_city => 'Provo'
+ 14  	 , pv_state_province => 'Utah'
+ 15  	 , pv_postal_code => '84606'
+ 16  	 , pv_street_address => '2228 South 14th East'
+ 17  	 , pv_telephone_type => 'HOME'
+ 18  	 , pv_country_code => '001'
+ 19  	 , pv_area_code => '801'
+ 20  	 , pv_telephone_number => '423-1237' );
+ 21  END;
+ 22  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Insert fifth contact.
+SQL> BEGIN
+  2    /* Call the contact_insert procedure. */
+  3    contact_insert(
+  4  	   pv_member_type => 'INDIVIDUAL'
+  5  	 , pv_account_number => 'R11-514-38'
+  6  	 , pv_credit_card_number => '1111-1111-3333-1111'
+  7  	 , pv_credit_card_type => 'VISA_CARD'
+  8  	 , pv_first_name => 'Brian'
+  9  	 , pv_middle_name => 'Nathan'
+ 10  	 , pv_last_name => 'Smith'
+ 11  	 , pv_contact_type => 'CUSTOMER'
+ 12  	 , pv_address_type => 'HOME'
+ 13  	 , pv_city => 'Spanish Fork'
+ 14  	 , pv_state_province => 'Utah'
+ 15  	 , pv_postal_code => '84606'
+ 16  	 , pv_street_address => '333 North 2nd East'
+ 17  	 , pv_telephone_type => 'HOME'
+ 18  	 , pv_country_code => '001'
+ 19  	 , pv_area_code => '801'
+ 20  	 , pv_telephone_number => '423-1238' );
+ 21  END;
+ 22  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --   Query to verify five individual rows of chained inserts through
+SQL> --   a procedure into the five dependent tables.
+SQL> -- ------------------------------------------------------------------
+SQL> COL account_number  FORMAT A10  HEADING "Account|Number"
+SQL> COL full_name	 FORMAT A20  HEADING "Name|(Last, First MI)"
+SQL> COL city		 FORMAT A12  HEADING "City"
+SQL> COL state_province  FORMAT A10  HEADING "State"
+SQL> COL telephone	 FORMAT A18  HEADING "Telephone"
+SQL> SELECT   m.account_number
+  2  ,	      c.last_name || ', ' || c.first_name
+  3  ||       CASE
+  4  		WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  5  	      END AS full_name
+  6  ,	      a.city
+  7  ,	      a.state_province
+  8  ,	      t.country_code || '-(' || t.area_code || ') ' || t.telephone_number AS telephone
+  9  FROM     member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 10  	      address a ON c.contact_id = a.contact_id INNER JOIN
+ 11  	      street_address sa ON a.address_id = sa.address_id INNER JOIN
+ 12  	      telephone t ON c.contact_id = t.contact_id AND a.address_id = t.address_id
+ 13  WHERE    m.member_type = (SELECT common_lookup_id
+ 14  			       FROM   common_lookup
+ 15  			       WHERE  common_lookup_context = 'MEMBER'
+ 16  			       AND    common_lookup_type = 'INDIVIDUAL');
+
+Account    Name                                                                 
+Number     (Last, First MI)     City         State      Telephone               
+---------- -------------------- ------------ ---------- ------------------      
+R11-514-34 Clinton, Goeffrey W  Provo        Utah       001-(801) 423-1234      
+R11-514-35 Moss, Wendy          Provo        Utah       001-(801) 423-1235      
+R11-514-36 Gretelz, Simon J     Provo        Utah       001-(801) 423-1236      
+R11-514-37 Royal, Elizabeth J   Provo        Utah       001-(801) 423-1237      
+R11-514-38 Smith, Brian N       Spanish Fork Utah       001-(801) 423-1238      
+
+5 rows selected.
+
+SQL> 
+SQL> -- Commit changes.
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Close log file.
+SQL> -- ------------------------------------------------------------------
+SQL> SPOOL OFF

@@ -1,0 +1,62 @@
+SQL> 
+SQL> COLUMN table_name_base	FORMAT A30 HEADING "Base Tables"
+SQL> COLUMN sequence_name_base	FORMAT A30 HEADING "Base Sequences"
+SQL> SELECT   a.table_name_base
+  2  ,	      b.sequence_name_base
+  3  FROM    (SELECT   table_name AS table_name_base
+  4  	      FROM     user_tables
+  5  	      WHERE    table_name IN ('SYSTEM_USER_LAB'
+  6  				     ,'COMMON_LOOKUP_LAB'
+  7  				     ,'MEMBER_LAB'
+  8  				     ,'CONTACT_LAB'
+  9  				     ,'ADDRESS_LAB'
+ 10  				     ,'STREET_ADDRESS_LAB'
+ 11  				     ,'TELEPHONE_LAB'
+ 12  				     ,'ITEM_LAB'
+ 13  				     ,'RENTAL_LAB'
+ 14  				     ,'RENTAL_ITEM_LAB')) a  INNER JOIN
+ 15  	     (SELECT   sequence_name AS sequence_name_base
+ 16  	      FROM     user_sequences
+ 17  	      WHERE    sequence_name IN ('SYSTEM_USER_LAB_S1'
+ 18  					,'COMMON_LOOKUP_LAB_S1'
+ 19  					,'MEMBER_LAB_S1'
+ 20  					,'CONTACT_LAB_S1'
+ 21  					,'ADDRESS_LAB_S1'
+ 22  					,'STREET_ADDRESS_LAB_S1'
+ 23  					,'TELEPHONE_LAB_S1'
+ 24  					,'ITEM_LAB_S1'
+ 25  					,'RENTAL_LAB_S1'
+ 26  					,'RENTAL_ITEM_LAB_S1')) b
+ 27  ON       a.table_name_base =
+ 28  		SUBSTR( b.sequence_name_base, 1, REGEXP_INSTR(b.sequence_name_base,'_S1') - 1)
+ 29  ORDER BY CASE
+ 30  		WHEN table_name_base LIKE 'SYSTEM_USER%' THEN 0
+ 31  		WHEN table_name_base LIKE 'COMMON_LOOKUP%' THEN 1
+ 32  		WHEN table_name_base LIKE 'MEMBER%' THEN 2
+ 33  		WHEN table_name_base LIKE 'CONTACT%' THEN 3
+ 34  		WHEN table_name_base LIKE 'ADDRESS%' THEN 4
+ 35  		WHEN table_name_base LIKE 'STREET_ADDRESS%' THEN 5
+ 36  		WHEN table_name_base LIKE 'TELEPHONE%' THEN 6
+ 37  		WHEN table_name_base LIKE 'ITEM%' THEN 7
+ 38  		WHEN table_name_base LIKE 'RENTAL%' AND NOT table_name_base LIKE 'RENTAL_ITEM%' THEN 8
+ 39  		WHEN table_name_base LIKE 'RENTAL_ITEM%' THEN 9
+ 40  	      END;
+
+Base Tables                    Base Sequences                                   
+------------------------------ ------------------------------                   
+SYSTEM_USER_LAB                SYSTEM_USER_LAB_S1                               
+COMMON_LOOKUP_LAB              COMMON_LOOKUP_LAB_S1                             
+MEMBER_LAB                     MEMBER_LAB_S1                                    
+CONTACT_LAB                    CONTACT_LAB_S1                                   
+ADDRESS_LAB                    ADDRESS_LAB_S1                                   
+STREET_ADDRESS_LAB             STREET_ADDRESS_LAB_S1                            
+TELEPHONE_LAB                  TELEPHONE_LAB_S1                                 
+ITEM_LAB                       ITEM_LAB_S1                                      
+RENTAL_LAB                     RENTAL_LAB_S1                                    
+RENTAL_ITEM_LAB                RENTAL_ITEM_LAB_S1                               
+
+10 rows selected.
+
+SQL> 
+SQL> -- Close log file.
+SQL> SPOOL OFF

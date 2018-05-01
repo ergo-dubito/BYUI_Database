@@ -1,0 +1,97 @@
+SQL> 
+SQL> -- --------------------------------------------------------
+SQL> --  Step #1
+SQL> --  --------
+SQL> --   Display the rows in the member and contact tables.
+SQL> -- --------------------------------------------------------
+SQL> 
+SQL> COL member_id	     FORMAT 9999  HEADING "Member|ID #"
+SQL> COL members	     FORMAT 9999  HEADING "Member|#"
+SQL> COL common_lookup_type  FORMAT A12   HEADING "Common|Lookup Type"
+SQL> SELECT   m.member_id
+  2  ,	      COUNT(contact_id) AS MEMBERS
+  3  ,	      cl.common_lookup_type
+  4  FROM     member m INNER JOIN contact c
+  5  ON       m.member_id = c.member_id INNER JOIN common_lookup cl
+  6  ON       m.member_type = cl.common_lookup_id
+  7  GROUP BY m.member_id
+  8  ,	      m.member_type
+  9  ,	      cl.common_lookup_id
+ 10  ,	      cl.common_lookup_type
+ 11  ORDER BY m.member_id;
+
+Member Member Common                                                            
+  ID #      # Lookup Type                                                       
+------ ------ ------------                                                      
+  1001      2 GROUP                                                             
+  1002      2 GROUP                                                             
+  1003      3 GROUP                                                             
+  1004      1 INDIVIDUAL                                                        
+  1005      1 INDIVIDUAL                                                        
+  1006      1 INDIVIDUAL                                                        
+  1007      1 INDIVIDUAL                                                        
+  1008      1 INDIVIDUAL                                                        
+
+8 rows selected.
+
+SQL> 
+SQL> -- --------------------------------------------------------
+SQL> --  Step #2
+SQL> --  --------
+SQL> --   Create a view .
+SQL> -- --------------------------------------------------------
+SQL> CREATE OR REPLACE VIEW current_rental AS
+  2    SELECT	m.account_number
+  3    ,	c.last_name || ', ' || c.first_name
+  4    ||	CASE
+  5  		  WHEN c.middle_name IS NOT NULL THEN ' ' || SUBSTR(c.middle_name,1,1)
+  6  		END AS full_name
+  7    ,	i.item_title AS title
+  8    ,	i.item_subtitle AS subtitle
+  9    ,	SUBSTR(cl.common_lookup_meaning,1,3) AS product
+ 10    ,	r.check_out_date
+ 11    ,	r.return_date
+ 12    FROM	member m INNER JOIN contact c ON m.member_id = c.member_id INNER JOIN
+ 13  		rental r ON c.contact_id = r.customer_id INNER JOIN
+ 14  		rental_item ri ON r.rental_id = ri.rental_id INNER JOIN
+ 15  		item i ON ri.item_id = i.item_id INNER JOIN
+ 16  		common_lookup cl ON i.item_id = cl.common_lookup_id
+ 17    ORDER BY 1, 2, 3;
+
+View created.
+
+SQL> 
+SQL> -- --------------------------------------------------------
+SQL> --  Step #3
+SQL> --  --------
+SQL> --   Display the content of a view .
+SQL> -- --------------------------------------------------------
+SQL> COL full_name	FORMAT A24
+SQL> COL title		FORMAT A30
+SQL> COL subtitlei	FORMAT A4
+SQL> COL product	FORMAT A7
+SQL> COL check_out_date FORMAT A11
+SQL> COL return_date	FORMAT A11
+SQL> SELECT   cr.full_name
+  2  ,	      cr.title
+  3  ,	      cr.check_out_date
+  4  ,	      cr.return_date
+  5  FROM     current_rental cr;
+
+Name                                                                            
+(Last, First MI)         TITLE                          CHECK_OUT_D RETURN_DATE 
+------------------------ ------------------------------ ----------- ----------- 
+Winn, Brian              RoboCop                        29-APR-18   04-MAY-18   
+Winn, Brian              The Hunt for Red October       29-APR-18   04-MAY-18   
+Vizquel, Oscar           Star Wars I                    29-APR-18   04-MAY-18   
+Vizquel, Oscar           Star Wars II                   29-APR-18   04-MAY-18   
+Vizquel, Oscar           Star Wars III                  29-APR-18   04-MAY-18   
+Sweeney, Ian M           Cars                           29-APR-18   04-MAY-18   
+
+6 rows selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Close log file.
+SQL> -- ------------------------------------------------------------------
+SQL> SPOOL OFF

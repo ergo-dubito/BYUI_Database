@@ -1,0 +1,203 @@
+SQL> 
+SQL> -- Set SQL*Plus environmnet variables.
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET NULL '<Null>'
+SQL> SET PAGESIZE 999
+SQL> SET SERVEROUTPUT ON SIZE UNLIMITED
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Create and assign bind variable for table name.
+SQL> -- ------------------------------------------------------------------
+SQL> VARIABLE table_name VARCHAR2(30)
+SQL> 
+SQL> BEGIN
+  2    :table_name := UPPER('item');
+  3  END;
+  4  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> --  Verify table name.
+SQL> SELECT :table_name FROM dual;
+
+:TABLE_NAME                                                                     
+--------------------------------------------------------------------------------
+ITEM                                                                            
+
+1 row selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Conditionally drop table.
+SQL> -- ------------------------------------------------------------------
+SQL> DECLARE
+  2    /* Dynamic cursor. */
+  3    CURSOR c (cv_object_name VARCHAR2) IS
+  4  	 SELECT o.object_type
+  5  	 ,	o.object_name
+  6  	 FROM	user_objects o
+  7  	 WHERE	o.object_name LIKE UPPER(cv_object_name||'%');
+  8  BEGIN
+  9    FOR i IN c(:table_name) LOOP
+ 10  	 IF i.object_type = 'SEQUENCE' THEN
+ 11  	   EXECUTE IMMEDIATE 'DROP '||i.object_type||' '||i.object_name;
+ 12  	 ELSIF i.object_type = 'TABLE' THEN
+ 13  	   EXECUTE IMMEDIATE 'DROP '||i.object_type||' '||i.object_name||' CASCADE CONSTRAINTS';
+ 14  	 END IF;
+ 15    END LOOP;
+ 16  END;
+ 17  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Create a table.
+SQL> CREATE TABLE item
+  2  ( item_id			   NUMBER
+  3  , item_barcode		   VARCHAR2(14) CONSTRAINT nn_item_1 NOT NULL
+  4  , item_type		   NUMBER	CONSTRAINT nn_item_2 NOT NULL
+  5  , item_title		   VARCHAR2(60) CONSTRAINT nn_item_3 NOT NULL
+  6  , item_subtitle		   VARCHAR2(60)
+  7  , item_rating		   VARCHAR2(8)	CONSTRAINT nn_item_4 NOT NULL
+  8  , item_release_date	   DATE 	CONSTRAINT nn_item_5 NOT NULL
+  9  , created_by		   NUMBER	CONSTRAINT nn_item_6 NOT NULL
+ 10  , creation_date		   DATE 	CONSTRAINT nn_item_7 NOT NULL
+ 11  , last_updated_by		   NUMBER	CONSTRAINT nn_item_8 NOT NULL
+ 12  , last_update_date 	   DATE 	CONSTRAINT nn_item_9 NOT NULL
+ 13  , CONSTRAINT pk_item_1	   PRIMARY KEY(item_id)
+ 14  , CONSTRAINT fk_item_1	   FOREIGN KEY(item_type) REFERENCES common_lookup(common_lookup_id)
+ 15  , CONSTRAINT fk_item_2	   FOREIGN KEY(created_by) REFERENCES system_user(system_user_id)
+ 16  , CONSTRAINT fk_item_3	   FOREIGN KEY(last_updated_by) REFERENCES system_user(system_user_id));
+
+Table created.
+
+SQL> 
+SQL> -- Display the table organization.
+SQL> SET NULL ''
+SQL> COLUMN table_name	 FORMAT A16
+SQL> COLUMN column_id	 FORMAT 9999
+SQL> COLUMN column_name  FORMAT A22
+SQL> COLUMN data_type	 FORMAT A12
+SQL> SELECT   table_name
+  2  ,	      column_id
+  3  ,	      column_name
+  4  ,	      CASE
+  5  		WHEN nullable = 'N' THEN 'NOT NULL'
+  6  		ELSE ''
+  7  	      END AS nullable
+  8  ,	      CASE
+  9  		WHEN data_type IN ('CHAR','VARCHAR2','NUMBER') THEN
+ 10  		  data_type||'('||data_length||')'
+ 11  		ELSE
+ 12  		  data_type
+ 13  	      END AS data_type
+ 14  FROM     user_tab_columns
+ 15  WHERE    table_name = 'ITEM'
+ 16  ORDER BY 2;
+
+                           Column                                               
+TABLE_NAME       COLUMN_ID Name                   NULLABLE DATA_TYPE            
+---------------- --------- ---------------------- -------- ------------         
+ITEM                     1 ITEM_ID                NOT NULL NUMBER(22)           
+ITEM                     2 ITEM_BARCODE           NOT NULL VARCHAR2(14)         
+ITEM                     3 ITEM_TYPE              NOT NULL NUMBER(22)           
+ITEM                     4 ITEM_TITLE             NOT NULL VARCHAR2(60)         
+ITEM                     5 ITEM_SUBTITLE                   VARCHAR2(60)         
+ITEM                     6 ITEM_RATING            NOT NULL VARCHAR2(8)          
+ITEM                     7 ITEM_RELEASE_DATE      NOT NULL DATE                 
+ITEM                     8 CREATED_BY             NOT NULL NUMBER(22)           
+ITEM                     9 CREATION_DATE          NOT NULL DATE                 
+ITEM                    10 LAST_UPDATED_BY        NOT NULL NUMBER(22)           
+ITEM                    11 LAST_UPDATE_DATE       NOT NULL DATE                 
+
+11 rows selected.
+
+SQL> 
+SQL> -- Display non-unique constraints.
+SQL> COLUMN constraint_name   FORMAT A22
+SQL> COLUMN search_condition  FORMAT A36
+SQL> COLUMN constraint_type   FORMAT A1
+SQL> SELECT   uc.constraint_name
+  2  ,	      uc.search_condition
+  3  ,	      uc.constraint_type
+  4  FROM     user_constraints uc INNER JOIN user_cons_columns ucc
+  5  ON       uc.table_name = ucc.table_name
+  6  AND      uc.constraint_name = ucc.constraint_name
+  7  WHERE    uc.table_name = UPPER('item')
+  8  AND      uc.constraint_type IN (UPPER('c'),UPPER('p'))
+  9  ORDER BY uc.constraint_type DESC
+ 10  ,	      uc.constraint_name;
+
+CONSTRAINT_NAME        SEARCH_CONDITION                     C                   
+---------------------- ------------------------------------ -                   
+PK_ITEM_1                                                   P                   
+NN_ITEM_1              "ITEM_BARCODE" IS NOT NULL           C                   
+NN_ITEM_2              "ITEM_TYPE" IS NOT NULL              C                   
+NN_ITEM_3              "ITEM_TITLE" IS NOT NULL             C                   
+NN_ITEM_4              "ITEM_RATING" IS NOT NULL            C                   
+NN_ITEM_5              "ITEM_RELEASE_DATE" IS NOT NULL      C                   
+NN_ITEM_6              "CREATED_BY" IS NOT NULL             C                   
+NN_ITEM_7              "CREATION_DATE" IS NOT NULL          C                   
+NN_ITEM_8              "LAST_UPDATED_BY" IS NOT NULL        C                   
+NN_ITEM_9              "LAST_UPDATE_DATE" IS NOT NULL       C                   
+
+10 rows selected.
+
+SQL> 
+SQL> -- Display foreign key constraints.
+SQL> COL constraint_source FORMAT A38 HEADING "Constraint Name:| Table.Column"
+SQL> COL references_column FORMAT A40 HEADING "References:| Table.Column"
+SQL> SELECT   uc.constraint_name||CHR(10)
+  2  ||      '('||ucc1.table_name||'.'||ucc1.column_name||')' constraint_source
+  3  ,	     'REFERENCES'||CHR(10)
+  4  ||      '('||ucc2.table_name||'.'||ucc2.column_name||')' references_column
+  5  FROM     user_constraints uc
+  6  ,	      user_cons_columns ucc1
+  7  ,	      user_cons_columns ucc2
+  8  WHERE    uc.constraint_name = ucc1.constraint_name
+  9  AND      uc.r_constraint_name = ucc2.constraint_name
+ 10  AND      ucc1.position = ucc2.position -- Correction for multiple column primary keys.
+ 11  AND      uc.constraint_type = 'R'
+ 12  AND      ucc1.table_name = 'ITEM'
+ 13  ORDER BY ucc1.table_name
+ 14  ,	      uc.constraint_name;
+
+Constraint Name:                       References:                              
+ Table.Column                           Table.Column                            
+-------------------------------------- ---------------------------------------- 
+FK_ITEM_1                              REFERENCES                               
+(ITEM.ITEM_TYPE)                       (COMMON_LOOKUP.COMMON_LOOKUP_ID)         
+                                                                                
+FK_ITEM_2                              REFERENCES                               
+(ITEM.CREATED_BY)                      (SYSTEM_USER.SYSTEM_USER_ID)             
+                                                                                
+FK_ITEM_3                              REFERENCES                               
+(ITEM.LAST_UPDATED_BY)                 (SYSTEM_USER.SYSTEM_USER_ID)             
+                                                                                
+
+3 rows selected.
+
+SQL> 
+SQL> -- Create a sequence.
+SQL> CREATE SEQUENCE item_s1 START WITH 1001 NOCACHE;
+
+Sequence created.
+
+SQL> 
+SQL> -- Display sequence value.
+SQL> COLUMN sequence_name FORMAT A20 HEADING "Sequence Name"
+SQL> SELECT   sequence_name
+  2  FROM     user_sequences
+  3  WHERE    sequence_name = UPPER('item_s1');
+
+Sequence Name                                                                   
+--------------------                                                            
+ITEM_S1                                                                         
+
+1 row selected.
+
+SQL> 
+SQL> -- Close the log file.
+SQL> SPOOL OFF

@@ -1,0 +1,215 @@
+SQL> 
+SQL> -- Set SQL*Plus environmnet variables.
+SQL> SET ECHO ON
+SQL> SET FEEDBACK ON
+SQL> SET NULL '<Null>'
+SQL> SET PAGESIZE 999
+SQL> SET SERVEROUTPUT ON SIZE UNLIMITED
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Create and assign bind variable for table name.
+SQL> -- ------------------------------------------------------------------
+SQL> VARIABLE table_name VARCHAR2(30)
+SQL> 
+SQL> BEGIN
+  2    :table_name := UPPER('system_user');
+  3  END;
+  4  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> --  Verify table name.
+SQL> SELECT :table_name FROM dual;
+
+:TABLE_NAME                                                                     
+--------------------------------------------------------------------------------
+SYSTEM_USER                                                                     
+
+1 row selected.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Conditionally drop table.
+SQL> -- ------------------------------------------------------------------
+SQL> DECLARE
+  2    /* Dynamic cursor. */
+  3    CURSOR c (cv_object_name VARCHAR2) IS
+  4  	 SELECT o.object_type
+  5  	 ,	o.object_name
+  6  	 FROM	user_objects o
+  7  	 WHERE	o.object_name LIKE UPPER(cv_object_name||'%');
+  8  BEGIN
+  9    FOR i IN c(:table_name) LOOP
+ 10  	 IF i.object_type = 'SEQUENCE' THEN
+ 11  	   EXECUTE IMMEDIATE 'DROP '||i.object_type||' '||i.object_name;
+ 12  	 ELSIF i.object_type = 'TABLE' THEN
+ 13  	   EXECUTE IMMEDIATE 'DROP '||i.object_type||' '||i.object_name||' CASCADE CONSTRAINTS';
+ 14  	 END IF;
+ 15    END LOOP;
+ 16  END;
+ 17  /
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> -- Create table.
+SQL> CREATE TABLE system_user
+  2  ( system_user_id		   NUMBER
+  3  , system_user_name 	   VARCHAR2(20) CONSTRAINT nn_system_user_1 NOT NULL
+  4  , system_user_group_id	   NUMBER	CONSTRAINT nn_system_user_2 NOT NULL
+  5  , system_user_type 	   NUMBER	CONSTRAINT nn_system_user_3 NOT NULL
+  6  , first_name		   VARCHAR2(20)
+  7  , middle_name		   VARCHAR2(20)
+  8  , last_name		   VARCHAR2(20)
+  9  , created_by		   NUMBER	CONSTRAINT nn_system_user_4 NOT NULL
+ 10  , creation_date		   DATE 	CONSTRAINT nn_system_user_5 NOT NULL
+ 11  , last_updated_by		   NUMBER	CONSTRAINT nn_system_user_6 NOT NULL
+ 12  , last_update_date 	   DATE 	CONSTRAINT nn_system_user_7 NOT NULL
+ 13  , CONSTRAINT pk_system_user_1 PRIMARY KEY(system_user_id)
+ 14  , CONSTRAINT fk_system_user_1 FOREIGN KEY(created_by) REFERENCES system_user(system_user_id)
+ 15  , CONSTRAINT fk_system_user_2 FOREIGN KEY(last_updated_by) REFERENCES system_user(system_user_id));
+
+Table created.
+
+SQL> 
+SQL> -- Display the table organization.
+SQL> SET NULL ''
+SQL> COLUMN table_name	 FORMAT A16
+SQL> COLUMN column_id	 FORMAT 9999
+SQL> COLUMN column_name  FORMAT A22
+SQL> COLUMN data_type	 FORMAT A12
+SQL> SELECT   table_name
+  2  ,	      column_id
+  3  ,	      column_name
+  4  ,	      CASE
+  5  		WHEN nullable = 'N' THEN 'NOT NULL'
+  6  		ELSE ''
+  7  	      END AS nullable
+  8  ,	      CASE
+  9  		WHEN data_type IN ('CHAR','VARCHAR2','NUMBER') THEN
+ 10  		  data_type||'('||data_length||')'
+ 11  		ELSE
+ 12  		  data_type
+ 13  	      END AS data_type
+ 14  FROM     user_tab_columns
+ 15  WHERE    table_name = 'SYSTEM_USER'
+ 16  ORDER BY 2;
+
+TABLE_NAME       COLUMN_ID COLUMN_NAME            NULLABLE DATA_TYPE            
+---------------- --------- ---------------------- -------- ------------         
+SYSTEM_USER              1 SYSTEM_USER_ID         NOT NULL NUMBER(22)           
+SYSTEM_USER              2 SYSTEM_USER_NAME       NOT NULL VARCHAR2(20)         
+SYSTEM_USER              3 SYSTEM_USER_GROUP_ID   NOT NULL NUMBER(22)           
+SYSTEM_USER              4 SYSTEM_USER_TYPE       NOT NULL NUMBER(22)           
+SYSTEM_USER              5 FIRST_NAME                      VARCHAR2(20)         
+SYSTEM_USER              6 MIDDLE_NAME                     VARCHAR2(20)         
+SYSTEM_USER              7 LAST_NAME                       VARCHAR2(20)         
+SYSTEM_USER              8 CREATED_BY             NOT NULL NUMBER(22)           
+SYSTEM_USER              9 CREATION_DATE          NOT NULL DATE                 
+SYSTEM_USER             10 LAST_UPDATED_BY        NOT NULL NUMBER(22)           
+SYSTEM_USER             11 LAST_UPDATE_DATE       NOT NULL DATE                 
+
+11 rows selected.
+
+SQL> 
+SQL> -- Display non-unique constraints.
+SQL> COLUMN constraint_name   FORMAT A22
+SQL> COLUMN search_condition  FORMAT A36
+SQL> COLUMN constraint_type   FORMAT A1
+SQL> SELECT   uc.constraint_name
+  2  ,	      uc.search_condition
+  3  ,	      uc.constraint_type
+  4  FROM     user_constraints uc INNER JOIN user_cons_columns ucc
+  5  ON       uc.table_name = ucc.table_name
+  6  AND      uc.constraint_name = ucc.constraint_name
+  7  WHERE    uc.table_name = UPPER('system_user')
+  8  AND      uc.constraint_type = UPPER('c')
+  9  ORDER BY uc.constraint_name;
+
+CONSTRAINT_NAME        SEARCH_CONDITION                     C                   
+---------------------- ------------------------------------ -                   
+NN_SYSTEM_USER_1       "SYSTEM_USER_NAME" IS NOT NULL       C                   
+NN_SYSTEM_USER_2       "SYSTEM_USER_GROUP_ID" IS NOT NULL   C                   
+NN_SYSTEM_USER_3       "SYSTEM_USER_TYPE" IS NOT NULL       C                   
+NN_SYSTEM_USER_4       "CREATED_BY" IS NOT NULL             C                   
+NN_SYSTEM_USER_5       "CREATION_DATE" IS NOT NULL          C                   
+NN_SYSTEM_USER_6       "LAST_UPDATED_BY" IS NOT NULL        C                   
+NN_SYSTEM_USER_7       "LAST_UPDATE_DATE" IS NOT NULL       C                   
+
+7 rows selected.
+
+SQL> 
+SQL> -- Display foreign key constraints.
+SQL> COL constraint_source FORMAT A38 HEADING "Constraint Name:| Table.Column"
+SQL> COL references_column FORMAT A40 HEADING "References:| Table.Column"
+SQL> SELECT   uc.constraint_name||CHR(10)
+  2  ||      '('||ucc1.table_name||'.'||ucc1.column_name||')' constraint_source
+  3  ,	     'REFERENCES'||CHR(10)
+  4  ||      '('||ucc2.table_name||'.'||ucc2.column_name||')' references_column
+  5  FROM     user_constraints uc
+  6  ,	      user_cons_columns ucc1
+  7  ,	      user_cons_columns ucc2
+  8  WHERE    uc.constraint_name = ucc1.constraint_name
+  9  AND      uc.r_constraint_name = ucc2.constraint_name
+ 10  AND      ucc1.position = ucc2.position -- Correction for multiple column primary keys.
+ 11  AND      uc.constraint_type = 'R'
+ 12  AND      ucc1.table_name = 'SYSTEM_USER'
+ 13  ORDER BY ucc1.table_name
+ 14  ,	      uc.constraint_name;
+
+Constraint Name:                       References:                              
+ Table.Column                           Table.Column                            
+-------------------------------------- ---------------------------------------- 
+FK_SYSTEM_USER_1                       REFERENCES                               
+(SYSTEM_USER.CREATED_BY)               (SYSTEM_USER.SYSTEM_USER_ID)             
+                                                                                
+FK_SYSTEM_USER_2                       REFERENCES                               
+(SYSTEM_USER.LAST_UPDATED_BY)          (SYSTEM_USER.SYSTEM_USER_ID)             
+                                                                                
+
+2 rows selected.
+
+SQL> 
+SQL> -- Create unique index.
+SQL> CREATE UNIQUE INDEX uq_system_user_1
+  2    ON system_user (system_user_name);
+
+Index created.
+
+SQL> 
+SQL> -- Display unique indexes.
+SQL> COLUMN index_name FORMAT A20 HEADING "Index Name"
+SQL> SELECT   index_name
+  2  FROM     user_indexes
+  3  WHERE    TABLE_NAME = UPPER('system_user');
+
+Index Name                                                                      
+--------------------                                                            
+PK_SYSTEM_USER_1                                                                
+UQ_SYSTEM_USER_1                                                                
+
+2 rows selected.
+
+SQL> 
+SQL> -- Create sequence.
+SQL> CREATE SEQUENCE system_user_s1 START WITH 1001 NOCACHE;
+
+Sequence created.
+
+SQL> 
+SQL> -- Display sequence.
+SQL> COLUMN sequence_name FORMAT A20 HEADING "Sequence Name"
+SQL> SELECT   sequence_name
+  2  FROM     user_sequences
+  3  WHERE    sequence_name = UPPER('system_user_s1');
+
+Sequence Name                                                                   
+--------------------                                                            
+SYSTEM_USER_S1                                                                  
+
+1 row selected.
+
+SQL> 
+SQL> -- Close the log file.
+SQL> SPOOL OFF

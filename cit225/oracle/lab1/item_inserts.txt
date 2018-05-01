@@ -1,0 +1,710 @@
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  This seeds rows in a item table.
+SQL> -- ------------------------------------------------------------------
+SQL> --  - Insert 21 rows in the ITEM table.
+SQL> -- ------------------------------------------------------------------
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'9736-05640-4'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_WIDE_SCREEN')
+ 20  ,'The Hunt for Red October'
+ 21  ,'Special Collector''s Edition'
+ 22  ,'PG'
+ 23  ,'02-MAR-90'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'24543-02392'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_WIDE_SCREEN')
+ 20  ,'Star Wars I'
+ 21  ,'Phantom Menace'
+ 22  ,'PG'
+ 23  ,'04-MAY-99'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'24543-5615'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_FULL_SCREEN')
+ 20  ,'Star Wars II'
+ 21  ,'Attack of the Clones'
+ 22  ,'PG'
+ 23  ,'16-MAY-02'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'24543-05539'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_WIDE_SCREEN')
+ 20  ,'Star Wars II'
+ 21  ,'Attack of the Clones'
+ 22  ,'PG'
+ 23  ,'16-MAY-02'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'24543-20309'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_WIDE_SCREEN')
+ 20  ,'Star Wars III'
+ 21  ,'Revenge of the Sith'
+ 22  ,'PG13'
+ 23  ,'19-MAY-05'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'86936-70380'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'DVD_WIDE_SCREEN')
+ 20  ,'The Chronicles of Narnia'
+ 21  ,'The Lion, the Witch and the Wardrobe','PG'
+ 22  ,'16-MAY-02'
+ 23  , 1001
+ 24  , SYSDATE
+ 25  , 1001
+ 26  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'91493-06475'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'XBOX')
+ 20  ,'RoboCop'
+ 21  ,''
+ 22  ,'Mature'
+ 23  ,'24-JUL-03'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'93155-11810'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'XBOX')
+ 20  ,'Pirates of the Caribbean'
+ 21  ,''
+ 22  ,'Teen'
+ 23  ,'30-JUN-03'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'12725-00173'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'XBOX')
+ 20  ,'The Chronicles of Narnia'
+ 21  ,'The Lion, the Witch and the Wardrobe'
+ 22  ,'Everyone'
+ 23  ,'30-JUN-03'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'45496-96128'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'NINTENDO_GAMECUBE')
+ 20  ,'MarioKart'
+ 21  ,'Double Dash'
+ 22  ,'Everyone'
+ 23  ,'17-NOV-03'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'08888-32214'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'PLAYSTATION2')
+ 20  ,'Splinter Cell'
+ 21  ,'Chaos Theory'
+ 22  ,'Teen'
+ 23  ,'08-APR-03'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'14633-14821'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'PLAYSTATION2')
+ 20  ,'Need for Speed'
+ 21  ,'Most Wanted'
+ 22  ,'Everyone'
+ 23  ,'15-NOV-04'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'10425-29944'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'XBOX')
+ 20  ,'The DaVinci Code'
+ 21  ,''
+ 22  ,'Teen'
+ 23  ,'19-MAY-06'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'52919-52057'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'XBOX')
+ 20  ,'Cars'
+ 21  ,''
+ 22  ,'Everyone'
+ 23  ,'28-APR-06'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'9689-80547-3'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'Beau Geste'
+ 21  ,''
+ 22  ,'PG'
+ 23  ,'01-MAR-92'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'53939-64103'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'I Remember Mama'
+ 21  ,''
+ 22  ,'NR'
+ 23  ,'05-JAN-98'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'24543-01292'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'Tora! Tora! Tora!'
+ 21  ,'The Attack on Pearl Harbor'
+ 22  ,'G'
+ 23  ,'02-NOV-99'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'43396-60047'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'A Man for All Seasons'
+ 21  ,''
+ 22  ,'G'
+ 23  ,'28-JUN-94'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'43396-70603'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'Hook'
+ 21  ,''
+ 22  ,'PG'
+ 23  ,'11-DEC-91'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'85391-13213'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'Around the World in 80 Days'
+ 21  ,''
+ 22  ,'G'
+ 23  ,'04-DEC-92'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO item
+  2  ( item_id
+  3  , item_barcode
+  4  , item_type
+  5  , item_title
+  6  , item_subtitle
+  7  , item_rating
+  8  , item_release_date
+  9  , created_by
+ 10  , creation_date
+ 11  , last_updated_by
+ 12  , last_update_date )
+ 13  VALUES
+ 14  ( item_s1.nextval
+ 15  ,'85391-10843'
+ 16  ,(SELECT	common_lookup_id
+ 17    FROM	common_lookup
+ 18    WHERE	common_lookup_context = 'ITEM'
+ 19    AND	common_lookup_type = 'BLU-RAY')
+ 20  ,'Camelot'
+ 21  ,''
+ 22  ,'G'
+ 23  ,'15-MAY-98'
+ 24  , 1001
+ 25  , SYSDATE
+ 26  , 1001
+ 27  , SYSDATE);
+
+1 row created.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Display the 21 inserts into the item table.
+SQL> -- ------------------------------------------------------------------
+SQL> SET PAGESIZE 99
+SQL> COL item_id		FORMAT 9999  HEADING "Item|ID #"
+SQL> COL common_lookup_meaning	FORMAT A20  HEADING "Item Description"
+SQL> COL item_title		FORMAT A30  HEADING "Item Title"
+SQL> COL item_release_date	FORMAT A11  HEADING "Item|Release|Date"
+SQL> SELECT   i.item_id
+  2  ,	      cl.common_lookup_meaning
+  3  ,	      i.item_title
+  4  ,	      i.item_release_date
+  5  FROM     item i INNER JOIN common_lookup cl ON i.item_type = cl.common_lookup_id;
+
+                                                          Item                  
+ Item                                                     Release               
+ ID # Item Description     Item Title                     Date                  
+----- -------------------- ------------------------------ -----------           
+ 1001 DVD: Wide Screen     The Hunt for Red October       02-MAR-90             
+ 1002 DVD: Wide Screen     Star Wars I                    04-MAY-99             
+ 1003 DVD: Full Screen     Star Wars II                   16-MAY-02             
+ 1004 DVD: Wide Screen     Star Wars II                   16-MAY-02             
+ 1005 DVD: Wide Screen     Star Wars III                  19-MAY-05             
+ 1006 DVD: Wide Screen     The Chronicles of Narnia       16-MAY-02             
+ 1007 XBOX                 RoboCop                        24-JUL-03             
+ 1008 XBOX                 Pirates of the Caribbean       30-JUN-03             
+ 1009 XBOX                 The Chronicles of Narnia       30-JUN-03             
+ 1010 Nintendo Gamecube    MarioKart                      17-NOV-03             
+ 1011 Playstation2         Splinter Cell                  08-APR-03             
+ 1012 Playstation2         Need for Speed                 15-NOV-04             
+ 1013 XBOX                 The DaVinci Code               19-MAY-06             
+ 1014 XBOX                 Cars                           28-APR-06             
+ 1015 Blu-ray              Beau Geste                     01-MAR-92             
+ 1016 Blu-ray              I Remember Mama                05-JAN-98             
+ 1017 Blu-ray              Tora! Tora! Tora!              02-NOV-99             
+ 1018 Blu-ray              A Man for All Seasons          28-JUN-94             
+ 1019 Blu-ray              Hook                           11-DEC-91             
+ 1020 Blu-ray              Around the World in 80 Days    04-DEC-92             
+ 1021 Blu-ray              Camelot                        15-MAY-98             
+
+21 rows selected.
+
+SQL> 
+SQL> -- Commit changes.
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> -- ------------------------------------------------------------------
+SQL> --  Close log file.
+SQL> -- ------------------------------------------------------------------
+SQL> SPOOL OFF
