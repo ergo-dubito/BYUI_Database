@@ -1,0 +1,9 @@
+CREATE OR REPLACE PROCEDURE read_pipe
+( pipe_in pipelined.account_table ) IS
+BEGIN
+  FOR i IN 1..pipe_in.LAST LOOP
+    dbms_output.put(pipe_in(i).account);
+    dbms_output.put(pipe_in(i).full_name);
+  END LOOP;
+END read_pipe;
+/

@@ -1,0 +1,31 @@
+
+CREATE OR REPLACE PACKAGE BODY pipelined IS
+  -- Implement a pipelined function.
+  FUNCTION pf
+  RETURN account_table
+  PIPELINED IS
+    /* Declare a collection control and collection variable. */
+    counter NUMBER := 1;
+    account ACCOUNT_TABLE := account_table();
+    
+    /* Define a cursor. */
+    CURSOR c IS
+      SELECT   m.account_number
+      ,        c.last_name || ', '||c.first_name full_name
+      FROM     member m JOIN contact c ON m.member_id = c.member_id
+      ORDER BY c.last_name, c.first_name;
+  BEGIN
+    FOR i IN c LOOP
+      /* Allot space and add values to collection. */
+      account.EXTEND;
+      account(counter).account   := i.account_number;
+      account(counter).full_name := i.full_name;
+      
+      /* Assign the collection element to the PIPE. */
+      PIPE ROW(account(counter));
+      counter := counter + 1;
+    END LOOP;
+    RETURN;
+  END pf;
+END pipelined;
+/
